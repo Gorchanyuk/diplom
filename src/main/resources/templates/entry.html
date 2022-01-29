@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::base_head}">
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<!-- Navbar-->
+<div th:replace="~{fragments/navbar::base_navbar}"></div>
+
+<!-- Page Content-->
+<div th:replace="~{fragments/page-content::page3(${course.nameCourse}, ${entry.topicId.nameTopic})}"></div>
+
+<!--Content-->
+
+<!-- Wrapper  -->
+<div class="docs-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar nav fixed -->
+            <div class="docs-nav-sidebar col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12  d-none d-xl-block position-sticky end-0">
+                <div class="sidebar-nav-fixed">
+                    <div class="slimScrollDiv">
+                        <div class="nav-scroller docs-nav">
+                            <nav class="navbar navbar-expand-md">
+                                <div class="collapse navbar-collapse" id="navbarNav">
+                                    <ul class="navbar-nav flex-column" id="sidebarnav">
+                                        <th:block th:each="topic : ${course.topics}">
+                                            <li class="navbar-header">
+                                                <h5 class="heading" th:text="${topic.nameTopic}">
+                                                    Тема
+                                                </h5>
+                                            </li>
+                                            <th:block th:each="item : ${topic.entries}">
+                                                <li class="nav-item">
+                                                    <a class="nav-link"
+                                                       th:href="@{/proger/courses/{course}/{entry}
+                                                                (course=${course.slug}, entry=${item.slug})}"
+                                                       th:text="${item.name}">
+                                                        Название урока
+                                                    </a>
+                                                </li>
+
+                                            </th:block>
+                                            <li>
+                                                <div class="navbar-border"></div>
+                                            </li>
+                                        </th:block>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                        <div class="slimScrollBar"></div>
+                        <div class="slimScrollRail"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="offset-xxl-2 col-xxl-6 offset-xl-1 col-xl-7 col-md-12 col-sm-12 col-12 ">
+                <div class="docs-content mx-xxl-9">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="mb-8" id="intro">
+                                <h1 class="mb-2 fw-bold display-3" th:text="${entry.getName()}">
+                                    Заголовок
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-12">
+                            <div class="mb-8">
+                                <div class="fs-4 mb-0" th:text="${entry.getText()}">
+                                    Текст
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<div th:replace="~{fragments/scripts::base_script}"></div>
+</body>
+</html>

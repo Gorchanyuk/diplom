@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div class="avatar avatar-md avatar-indicators avatar-online" th:fragment="user-avatar">
+    <div th:replace="fragments/user-avatar::img-user-avatar(_, _)"></div>
+</div>
+
+
+<img alt="avatar" th:fragment="img-user-avatar(class, id)" th:classappend="${class}" th:id="${id}"
+     th:src="
+     @{(${user?.detailsUser?.getAvatar()} != null AND ${!#strings.isEmpty(user?.detailsUser?.getAvatar())})
+                                            ? ${user.detailsUser.getAvatar()} : '/images/avatar.jpg'}"
+     class="rounded-circle">
+
+</html>

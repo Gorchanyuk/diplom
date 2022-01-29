@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::base_head}">
+    <meta charset="UTF-8">
+    <title>Обратная связь</title>
+</head>
+<body class="pt-0">
+
+<!-- Content -->
+<div class="container-fluid">
+    <div class="row align-items-center min-vh-100">
+        <!-- col -->
+        <div class="col-lg-6 col-md-12 col-12">
+            <div class="px-xl-20 px-md-8 px-4 py-8 py-lg-0">
+                <!-- content -->
+                <div class="d-flex justify-content-between mb-7 align-items-center">
+                    <a th:href="@{/proger}">
+                        <img class="logo" th:src="@{images/logo.svg}" alt="">
+                    </a>
+                </div>
+                <div class="text-dark">
+                    <h1 class="display-4 fw-bold">ФОРМА ОБРАТНОЙ СВЯЗИ</h1>
+                    <p class="lead text-dark">
+                        Заполните форму и мы свяжемся с вами в ближайшее время.
+                    </p>
+                    <div class="mt-8">
+
+                        <!-- address -->
+                        <p class="fs-4">
+                            <i class="bi bi-telephone text-primary me-2"></i>
+                            +7 (927) 119-66-86
+                        </p>
+                        <p class="fs-4">
+                            <i class="bi bi-envelope-open text-primary me-2"></i>
+                            prog_ramm_er@internet.ru
+                        </p>
+                        <p class="fs-4 d-flex">
+                            <i class="bi bi-geo-alt text-primary me-2"></i>
+                            410030 Россия, г.Саратов, ул. Панченко, д.2
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- background color -->
+        <div class="col-lg-6 d-lg-flex align-items-center w-lg-50 min-vh-lg-100 position-fixed-lg bg-cover bg-light top-0
+          right-0">
+            <div class="px-4 px-xl-20 py-8 py-lg-0">
+                <!-- form section -->
+                <div id="form">
+                    <!-- form row -->
+                    <form class="row" method="post" th:action="@{/proger/feedback}" th:object="${feedback}">
+                        <th:block th:object="${feedback.detailsUser}">
+                            <!-- form group -->
+                            <input type="hidden" th:field="*{id}">
+                            <div class="mb-3 col-12 col-md-6">
+                                <label class="form-label" for="firstName">
+                                    Имя:
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input class="form-control" type="text" th:field="*{firstName}" id="firstName"
+                                       placeholder="Имя"
+                                       required="">
+                            </div>
+                            <!-- form group -->
+                            <div class="mb-3 col-12 col-md-6">
+                                <label class="form-label" for="surename">
+                                    Фамилия:
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input class="form-control" type="text" th:field="*{surename}" id="surename"
+                                       placeholder="Фамилия"
+                                       required>
+                            </div>
+                            <!-- form group -->
+                            <div class="mb-3 col-12 col-md-6">
+                                <label class="form-label" for="email">
+                                    Электронная почта:
+                                    <span class="text-danger">*</span></label>
+                                <input class="form-control" type="email" th:field="*{email}" id="email"
+                                       placeholder="Электронное почта" required>
+                            </div>
+                            <!-- form group -->
+                            <div class="mb-3 col-12 col-md-6">
+                                <label class="form-label" for="phone">
+                                    Номер телефона:
+                                </label>
+                                <input class="form-control" type="text" th:field="*{phone}" id="phone"
+                                       placeholder="Телефон">
+                            </div>
+                        </th:block>
+                        <!-- form group -->
+                        <div class="mb-3 col-12">
+                            <label class="text-dark form-label" for="reasonFeedback" style="width: 100%;">
+                                Причина обращения:
+                                <span class="text-danger">*</span>
+                                <select class="selectpicker" th:field="*{reasonFeedback}" data-width="100%">
+
+                                    <option th:each="reason : ${reasonFeedbacks}"
+                                            th:text="${reason.reason}"
+                                            th:value="${reason.id}">
+                                        Другое
+                                    </option>
+
+                                </select>
+                            </label>
+                        </div>
+                        <!-- form group -->
+                        <div class="mb-3 col-12">
+                            <label class="text-dark form-label" for="message">
+                                Сообщение:
+                            </label>
+                            <textarea class="form-control" th:field="*{message}" id="message" rows="3"
+                                      placeholder="Сообщение" required>
+                                </textarea>
+
+                        </div>
+                        <!-- button -->
+                        <div class=" col-12">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                Отправить
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Scripts -->
+<div th:replace="~{fragments/scripts::base_script}"></div>
+</body>
+</html>

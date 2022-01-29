@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::base_head}">
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<!-- Navbar-->
+<div th:replace="~{fragments/navbar::base_navbar}"></div>
+
+<!-- Page Content-->
+<div th:replace="~{fragments/page-content::page2('Курсы', 'Чему бы вы хотели научиться?')}"></div>
+
+<!-- Content-->
+<div class="py-6 wrapper flex-grow-1">
+    <div class="container">
+        <div class="row mb-6">
+            <th:block th:each="course : ${coursesChild}">
+                <div class="col-lg-2 col-md-3 col-6">
+
+                    <!-- Card -->
+                    <div th:replace="fragments/course-card::card(${course?.getNameCourse()})"></div>
+
+                </div>
+            </th:block>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer::base_footer}"></div>
+<!-- Scripts -->
+<div th:replace="~{fragments/scripts::base_script}"></div>
+</body>
+</html>

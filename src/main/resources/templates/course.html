@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::base_head}">
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<!-- Navbar-->
+<div th:replace="~{fragments/navbar::base_navbar}"></div>
+
+<!-- Page Content-->
+<div th:replace="~{fragments/page-content::page2(${course.nameCourse}, ${course.description})}"></div>
+
+<!--Content-->
+<div class="pt-lg-5 pb-lg-3 py-6 wrapper flex-grow-1">
+    <div class="container accordion accordion-flush">
+
+        <th:block th:each="topic : ${course.getTopics()}">
+            <div class="accordion-item px-2 py-3 mt-3 shadow-lg bg-white rounded-3">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed accordion-button-update" type="button"
+                            data-bs-toggle="collapse"
+                            th:attr="data-bs-target=${'#flush-collapse'+topic.getId()},
+                            aria-controls=${'flush-collapse'+topic.getId()}">
+                        <span class="h4 m-0" th:text="${topic.getNameTopic()}">
+                            Название темы
+                        </span>
+                    </button>
+                </h2>
+                <div th:id="${'flush-collapse'+topic.getId()}"
+                     class="accordion-collapse collapse">
+                    <div class="accordion-body pb-0">
+                        <th:block th:each="entry : ${topic.getEntries()}">
+                            <a th:href="@{/proger/courses/{course}/{entry}(course=${course.getSlug()}, entry=${entry.getSlug()})}"
+                               class="h4 mt-4 border-bottom d-flex justify-content-between align-items-center text-inherit text-decoration-none">
+                                <div class="text-truncate">
+                                    <span th:text="${entry.getName()}">Урок</span>
+                                </div>
+                            </a>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer::base_footer}"></div>
+<!-- Scripts -->
+<div th:replace="~{fragments/scripts::base_script}"></div>
+</body>
+</html>

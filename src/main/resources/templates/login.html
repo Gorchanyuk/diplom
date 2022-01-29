@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::base_head}">
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body class="pt-0">
+
+<!-- Page content -->
+<div class="container d-flex flex-column">
+    <div class="row align-items-center justify-content-center g-0 min-vh-100">
+        <div class="col-lg-5 col-md-8 py-8 py-xl-0">
+            <!-- Card -->
+            <div class="card shadow ">
+                <!-- Card body -->
+                <div class="card-body p-6">
+                    <div class="mb-4">
+                        <a th:href="@{/proger}">
+                            <img th:src="@{/images/logo.svg}" class="logo-xl mb-4" alt="">
+                        </a>
+                        <h1 class="mb-1 fw-bold">
+                            Войти
+                        </h1>
+                        <span>
+                            У вас нет аккаунта?
+                            <a th:href="@{/proger/registration}" class="ms-1">
+                            Зарегистрироваться
+                        </a>
+                        </span>
+                    </div>
+                    <!-- Form -->
+                    <form th:object="${user}" method="post" th:action="@{/proger/login}">
+                        <!-- Username -->
+                        <div class="mb-3">
+                            <label for="login" class="form-label">
+                                Имя пользователя или адрес электронной почты
+                            </label>
+                            <input type="text" id="login" class="form-control" th:field="*{username}"
+                                   placeholder="Адрес электронной почты или логин" required>
+                        </div>
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">
+                                Пароль
+                            </label>
+                            <input type="password" id="password" class="form-control" th:field="*{password}"
+                                   placeholder="****************" required>
+                        </div>
+                        <div th:if="${param.error}" class="alert alert-danger">
+                            Неправильные имя и пароль.
+                        </div>
+
+                        <div>
+                            <!-- Button -->
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary ">
+                                    Войти
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<div th:replace="~{fragments/scripts::base_script}"></div>
+</body>
+</html>

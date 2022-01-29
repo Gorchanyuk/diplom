@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::base_head}">
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+
+<!-- Navbar-->
+<div th:replace="fragments/navbar::base_navbar"></div>
+<!-- Page Content-->
+<div th:replace="~{fragments/page-content::page1}"></div>
+
+<!-- Content -->
+
+<div class="pt-lg-12 pb-lg-3 pt-8 pb-6">
+    <div th:replace="fragments/course-slider::slider('Популярное', 'sliderFirstControls', 'sliderFirst', ${popular})"></div>
+</div>
+<div class="pt-lg-3 pb-lg-3">
+    <div th:replace="fragments/course-slider::slider('Рекомендуемое', 'sliderSecondControls', 'sliderSecond', ${recomended})"></div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer::base_footer}"></div>
+<!-- Scripts -->
+<div th:replace="~{fragments/scripts::base_script}"></div>
+</body>
+</html>

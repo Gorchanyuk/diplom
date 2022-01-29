@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="slider(sliderName, idSliderControls, classSlider, category)">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col">
+                <h2 class="mb-0" th:text="${sliderName}">Название категории</h2>
+            </div>
+        </div>
+        <div class="position-relative">
+            <ul class="controls" th:attr="id=${idSliderControls}" id="slider">
+                <li class="prev">
+                    <i class="fe fe-chevron-left"></i>
+                </li>
+                <li class="next">
+                    <i class="fe fe-chevron-right"></i>
+                </li>
+            </ul>
+            <div th:class="${classSlider}">
+                <!--Здесь опредяется цикл-->
+
+                <div th:each="course : ${category}">
+                    <!-- Card -->
+                    <div class="card mb-4 card-hover" th:replace="fragments/course-card::card(${course?.description})"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

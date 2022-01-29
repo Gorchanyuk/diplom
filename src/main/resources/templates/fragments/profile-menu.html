@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div class="col-lg-3 col-md-4 col-12" th:fragment="menu">
+    <!-- Side navbar -->
+    <nav class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
+        <!-- Menu -->
+        <a class="d-xl-none d-lg-none d-md-none text-inherit fw-bold" href="#">
+            Меню
+        </a>
+        <!-- Button -->
+        <button class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light"
+                type="button" data-bs-toggle="collapse" data-bs-target="#sidenav" aria-controls="sidenav"
+                aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="fe fe-menu">
+
+                        </span>
+        </button>
+        <!-- Collapse navbar -->
+        <div class="collapse navbar-collapse" id="sidenav">
+            <div class="navbar-nav flex-column">
+                            <span class="navbar-header">
+                                Настройки аккаунта
+                            </span>
+                <!-- List -->
+                <ul class="list-unstyled ms-n2 mb-0">
+                    <!-- Цикл по ProfileMenu -->
+                    <th:block th:each="menu : ${menus}">
+                    <li class="nav-item"
+                        th:classappend="${#strings.equals(item, menu?.slug) ? 'active' : ''}">
+                        <a class="nav-link" th:href="@{/proger/profile/{slug} (slug = ${menu?.slug})}">
+                            <i class="fe nav-icon" th:classappend="'fe-' + ${menu?.svgName}"></i>
+                            <span th:text="${menu?.name}">
+                            Редактировать профиль
+                            </span>
+                        </a>
+                    </li>
+                    </th:block>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/proger/logout}">
+                            <i class="fe fe-power nav-icon"></i>
+                            Выход
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+</html>

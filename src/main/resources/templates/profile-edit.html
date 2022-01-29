@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::base_head}">
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+
+<!-- Navbar-->
+<div th:replace="~{fragments/navbar::base_navbar}"></div>
+
+<!--Content-->
+<div class="pt-5 pb-5">
+    <div class="container">
+
+        <!-- User info -->
+        <div th:replace="fragments/profile-info::page"></div>
+
+        <!-- Content -->
+        <div class="row mt-0 mt-md-4">
+            <!--User-menu-->
+            <div th:replace="fragments/profile-menu::menu"></div>
+
+            <div class="col-lg-9 col-md-8 col-12">
+                <!-- Card -->
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header">
+                        <h3 class="mb-0">
+                            Детали профиля
+                        </h3>
+                        <p class="mb-0">
+                            У вас есть полный контроль над настройками вашей учетной записи.
+                        </p>
+                    </div>
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <div class="d-lg-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center mb-4 mb-lg-0">
+                                <img th:replace="fragments/user-avatar::img-user-avatar('avatar-xl', 'img-uploaded')">
+                                <div class="ms-3">
+                                    <h4 class="mb-0">
+                                        Ваш аватар
+                                    </h4>
+                                    <p class="mb-0">
+                                        PNG или JPEG размером не более 800 пикселей по ширине и высоте.
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <a href="#" class="btn btn-outline-white btn-sm">
+                                    Обновить
+                                </a>
+                                <a href="#" class="btn btn-outline-danger btn-sm">
+                                    Удалить</a>
+                            </div>
+                        </div>
+                        <hr class="my-5">
+                        <div>
+                            <h4 class="mb-0">
+                                Персональные данные
+                            </h4>
+                            <p class="mb-4">
+                                Отредактируйте свою личную информацию и адрес.
+                            </p>
+                            <!-- Form -->
+                            <form class="row">
+                                <!-- First name -->
+                                <div class="mb-3 col-12 col-md-6">
+                                    <label class="form-label" for="fname">
+                                        Имя
+                                    </label>
+                                    <input type="text" id="fname" class="form-control" placeholder="Имя" required="">
+                                </div>
+                                <!-- Last name -->
+                                <div class="mb-3 col-12 col-md-6">
+                                    <label class="form-label" for="lname">
+                                        Фамилия
+                                    </label>
+                                    <input type="text" id="lname" class="form-control" placeholder="Фамилия"
+                                           required="">
+                                </div>
+                                <!-- Phone -->
+                                <div class="mb-3 col-12 col-md-6">
+                                    <label class="form-label" for="phone">
+                                        Телефон
+                                    </label>
+                                    <input type="text" id="phone" class="form-control" placeholder="Телефон"
+                                           required="">
+                                </div>
+                                <!-- Birthday -->
+                                <div class="mb-3 col-12 col-md-6">
+                                    <label class="form-label" for="birth">
+                                        День рождения
+                                    </label>
+                                    <input class="form-control flatpickr flatpickr-input" type="text"
+                                           placeholder="Дата рождения" id="birth" name="birth" readonly="readonly">
+                                </div>
+                                <!--Complicacy-->
+                                <div class="mb-3 col-12 col-md-6">
+                                    <label class="form-label">Выберите ваш уровень знаний</label>
+                                    <div class="dropdown bootstrap-select" style="width: 100%;">
+                                        <select class="selectpicker" data-width="100%" tabindex="null">
+                                            <option value="1">Начинающий</option>
+                                            <option value="2">Опытный</option>
+                                            <option value="3">Профессионал</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <!-- Button -->
+                                    <button class="btn btn-primary" type="submit">
+                                        Обновить профиль
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer::base_footer}"></div>
+<!-- Scripts -->
+<div th:replace="~{fragments/scripts::base_script}"></div>
+</body>
+</html>

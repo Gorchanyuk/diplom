@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Navbar-->
+<nav class="navbar navbar-expand-lg navbar-default fixed-top" th:fragment="base_navbar">
+    <div class="container-fluid px-0">
+        <a class="navbar-brand" th:href="@{/proger}">
+            <!-- logo -->
+            <img class="logo" th:src="@{/images/logo.svg}" alt="">
+        </a>
+        <!-- Mobile view nav wrap -->
+        <ul class="navbar-nav navbar-right-wrap ms-auto d-lg-none d-flex nav-top-wrap">
+            <li class="dropdown ms-2">
+                <a class="rounded-circle" th:href="@{/proger/{user} (user=${user?.detailsUser?.getSlug()})}" role="button"
+                   data-bs-toggle="dropdown">
+                    <div th:replace="~{fragments/user-avatar::user-avatar}"></div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end shadow">
+                    <div th:replace="fragments/user-panel::user-panel">
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <!-- Button -->
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="icon-bar top-bar mt-0"></span>
+            <span class="icon-bar middle-bar"></span>
+            <span class="icon-bar bottom-bar"></span>
+        </button>
+        <!-- Collapse -->
+        <div class="collapse navbar-collapse" id="navbar-default">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" th:href="@{/proger/courses#}" id="navbarBrowse"
+                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                       data-bs-display="static">
+                        Курсы
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-arrow" aria-labelledby="navbarBrowse">
+
+                        <th:block th:each="course : ${courseParent}">
+
+                            <li th:classappend="${course?.getChildren().size() != 0} ? 'dropdown-submenu dropend' : ''">
+                                <a class="dropdown-item"
+                                   th:href="@{/proger/courses/{course} (course=${course?.getSlug()})}"
+                                   th:classappend="${course?.getChildren().size() != 0} ? 'dropdown-list-group-item dropdown-toggle' : ''"
+                                   th:text="${course?.getNameCourse()}">
+                                    Название курса
+                                </a>
+
+                                <ul class="dropdown-menu"
+                                    th:if="${course?.getChildren().size() != 0}">
+
+                                    <th:block th:each="courseChild : ${course.getChildren()}">
+                                        <li>
+                                            <a class="dropdown-item"
+                                               th:href="@{/proger/courses/{course} (course=${courseChild.getSlug()})}"
+                                               th:text="${courseChild.getNameCourse()}">
+                                                Название статьи
+                                            </a>
+                                        </li>
+                                    </th:block>
+
+                                </ul>
+                            </li>
+                        </th:block>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/proger/forum#}">
+                        Форум
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-right-wrap ms-auto d-none d-lg-block">
+
+                <li class="dropdown ms-2 d-inline-block">
+                    <a class="rounded-circle" th:href="@{/proger/{user}# (user=${user?.detailsUser?.getSlug()})}"
+                       data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                        <div th:replace="fragments/user-avatar::user-avatar">
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <div th:replace="fragments/user-panel::user-panel"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+</html>

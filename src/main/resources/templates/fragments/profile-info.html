@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- User info -->
+<div class="row align-items-center" th:fragment="page">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+        <!-- Bg -->
+        <div class="pt-16 rounded-top-md" style="
+								background: url(/images/profile-bg.jpg) no-repeat;
+								background-size: cover;">
+        </div>
+        <div class="d-flex align-items-end justify-content-between bg-white px-4 pt-2 pb-4 rounded-none rounded-bottom-md shadow-sm">
+            <div class="d-flex align-items-center">
+                <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
+                    <img th:replace="fragments/user-avatar::img-user-avatar('avatar-xl border border-4 border-white',_)" >
+                </div>
+                <div class="lh-1">
+                    <h2 class="mb-0" >
+                                <span th:text="*{
+                                          (user?.detailsUser?.firstName != null AND !#strings.isEmpty(user?.detailsUser?.firstName))
+                                          OR (user?.detailsUser?.surename != null AND !#strings.isEmpty(user?.detailsUser?.surename))
+                                          ? user?.detailsUser?.firstName + ' ' +  user?.detailsUser?.surename
+                                          : ''
+                                          }">
+                                Имя Фамилия
+                                </span>
+                        <a href="#" class="text-decoration-none" data-bs-toggle="tooltip"
+                           data-placement="top"
+                           th:attr="title=${user?.detailsUser?.complicacy?.complicacy}">
+                            <svg th:replace="fragments/complicacy::complicacy-svg(${user?.detailsUser}, _)"></svg>
+                        </a>
+                    </h2>
+                    <p class="mb-0 d-block" th:text="*{user?.getUsername != null AND !#strings.isEmpty(user?.getUsername) ?
+                                          '@' + user.getUsername : ''}">
+                        Логин
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

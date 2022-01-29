@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Card -->
+<div class="card mb-4 card-hover" th:fragment="card(description)">
+    <a th:href="@{/proger/courses/{course} (course=${course?.slug})}"
+       class="card-img-top">
+        <img th:src="@{/images/{avatar} (avatar=${course?.avatar})}" alt=""
+             class="rounded-top-md card-img-top">
+        <!-- Card Body -->
+        <div class="card-body">
+            <h4 class="mb-2 text-truncate-line-2 text-inherit"
+                th:text="${description}">
+                Краткое описание или название курса
+            </h4>
+        </div>
+        <!-- Card Footer -->
+        <div class="card-footer">
+            <div class="row align-items-center g-0">
+                <div class="col-auto">
+                    <svg th:replace="~{fragments/complicacy::complicacy-svg(${course}, 'me-1 mt-n1')}"></svg>
+                    <span th:text="${course.complicacy.complicacy}">Уровень сложности</span>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+
+</html>

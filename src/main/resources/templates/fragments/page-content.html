@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Page Content-->
+<div class="bg-primary" th:fragment="page1">
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="row align-items-center g-0">
+            <div class="col-xl-5 col-lg-6 col-md-12">
+                <div class="py-5 py-lg-0">
+                    <h1 class="text-white display-4 fw-bold">
+                        Добро пожаловать в PROG<span class="ramm">RAMM</span>ER
+                    </h1>
+                    <h2 class="text-white-50 mb-4 ">
+                        Учиться проще, когда все понятно.
+                    </h2>
+                    <p class="text-white-50 mb-4 lead">
+                        Здесь вы найдете интересные курсы и статьи переведенные с англоязычных ресурсов.
+                    </p>
+                    <a th:href="@{/proger/courses}" class="btn btn-success">Просмотр курсов</a>
+
+                </div>
+            </div>
+            <div class=" col-xl-7 col-lg-6 col-md-12 text-lg-end text-center">
+                <img th:src="@{/images/hero-img.png}" alt="" class="img-fluid hero-img" height="0.5em">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Требует передать name и description-->
+<div class="py-4 py-lg-6 bg-primary" th:fragment="page2(name, description)">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12">
+                <div>
+                    <h1 class="text-white mb-1 display-4" th:text="${name}">
+                        Наименование
+                    </h1>
+                    <p class="mb-0 text-white lead" th:text="${description}">
+                        Краткое описание
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Требует передать name и description-->
+<div class="py-8 bg-colors-gradient" th:fragment="page3(name, description)">
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-2 col-md-8 col-12 ">
+                <h1 class="fw-bold mb-0 display-4 lh-1" th:text="${name}">
+                    Наименование
+                </h1>
+                <h2 class="mb-0 text-white" th:text="${description}">
+                    Краткое описание
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</html>

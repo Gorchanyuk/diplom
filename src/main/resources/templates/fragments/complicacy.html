@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<svg
+        th:fragment="complicacy-svg(attr, class)"
+        th:class="${class}" width="16" height="16" viewBox="0 0 16 16"
+        fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="8" width="2" height="6" rx="1"
+          fill="#754FFE"></rect>
+    <rect x="7" y="5" width="2" height="9" rx="1"
+          th:attr="fill=${attr?.complicacy?.getId() == 1 ? '#DBD8E9' : '#754FFE'}"
+          fill="#DBD8E9"></rect>
+    <rect x="11" y="2" width="2" height="12" rx="1"
+          th:attr="fill=${attr?.complicacy?.getId() == 3 ? '#754FFE' : '#DBD8E9'}"
+          fill="#DBD8E9"></rect>
+</svg>
+
+
+</html>

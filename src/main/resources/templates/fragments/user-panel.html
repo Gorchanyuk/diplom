@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="user-panel">
+    <div class="dropdown-item">
+        <div class="d-flex">
+            <div th:replace="fragments/user-avatar::user-avatar"></div>
+            <div class="ms-3 lh-1">
+                <h5 class="mb-1" th:text="*{
+                                          (user?.detailsUser?.firstName != null AND !#strings.isEmpty(user?.detailsUser?.firstName))
+                                          OR (user?.detailsUser?.surename != null AND !#strings.isEmpty(user?.detailsUser?.surename))
+                                          ? user?.detailsUser?.firstName + ' ' +  user?.detailsUser?.surename
+                                          : user?.getUsername != null AND !#strings.isEmpty(user?.getUsername)
+                                          ? user.getUsername : 'Логин'}">
+                    Имя Фамилия
+                </h5>
+                <p class="mb-0 text-muted"
+                   th:text="*{(user?.getDetailsUser?.getEmail()!=null AND !#strings.isEmpty(user?.getDetailsUser?.getEmail())) ?
+                                           user?.getDetailsUser?.getEmail() : 'Email'}">
+                    Почта
+                </p>
+            </div>
+        </div>
+    </div>
+    <th:block th:if="${user == null OR #strings.isEmpty(user.getUsername)}">
+        <div class="dropdown-divider"></div>
+        <ul class="list-unstyled">
+            <li>
+                <a class="dropdown-item" th:href="@{/proger/login}">
+                    <i class="fe fe-user me-2"></i>Войти
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" th:href="@{/proger/registration}">
+                    <i class="fe fe-user-plus me-2"></i>Зарегестрироваться
+                </a>
+            </li>
+        </ul>
+    </th:block>
+    <th:block th:if="${user != null AND !#strings.isEmpty(user.getUsername)}">
+        <div class="dropdown-divider"></div>
+        <ul class="list-unstyled">
+
+            <li>
+                <a class="dropdown-item"
+                   th:href="@{/proger/profile}">
+<!--                    th:href="@{/proger/profile/{user} (user=${user?.detailsUser?.getSlug()})}"-->
+                    <i class="fe fe-user me-2"></i>
+                    Профиль
+                </a>
+            </li>
+        </ul>
+        <div class="dropdown-divider"></div>
+        <ul class="list-unstyled">
+            <li>
+                <a class="dropdown-item" th:href="@{/proger/logout}">
+                    <i class="fe fe-power me-2"></i>Выход
+                </a>
+            </li>
+        </ul>
+    </th:block>
+</th:block>
+
+
+</html>
