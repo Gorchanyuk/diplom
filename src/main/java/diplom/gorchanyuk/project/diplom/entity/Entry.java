@@ -1,10 +1,12 @@
 package diplom.gorchanyuk.project.diplom.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Getter
@@ -31,21 +33,30 @@ public class Entry {
     @Column(name="slug")
     private String slug;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entryId")
-    @Transient
-    private List<Comment> comments;
+    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
+    private Boolean publish;
 
-    @ManyToOne()
+    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
+    private Boolean offer;
+
+    @ManyToOne(cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH})
     @JoinColumn(name = "topic_id")
     private Topic topicId;
+
+    @PreRemove
+    private void removeEntry(){
+        topicId.removeEntry(this);
+    }
 
 
     @ManyToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
-            CascadeType.PERSIST,
             CascadeType.REFRESH})
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id", nullable = false)
     private User ownerId;
 
 }

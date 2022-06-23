@@ -24,8 +24,6 @@ public class Topic {
     @Column(name = "name_topic", columnDefinition ="VARCHAR(255) NOT NULL")
     private String nameTopic;
 
-    @Column(name = "avatar")
-    private String avatar;
 
     @Column(name = "date_added")
     private Date dateAdded;
@@ -36,7 +34,19 @@ public class Topic {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "topicId")
     private List<Entry> entries;
 
-    @ManyToOne()
+    @ManyToOne(cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH})
     @JoinColumn(name = "course_id")
     private Course courseId;
+
+    @PreRemove
+    private void removeTopic(){
+        courseId.removeTopic(this);
+    }
+
+    public void removeEntry(Entry entry) {
+        entries.removeIf(e -> e.equals(entry));
+    }
 }

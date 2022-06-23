@@ -19,6 +19,9 @@
 <div class="pt-lg-3 pb-lg-3">
     <div th:replace="fragments/course-slider::slider('Рекомендуемое', 'sliderSecondControls', 'sliderSecond', ${recomended})"></div>
 </div>
+<div class="pt-lg-3 pb-lg-3">
+    <div th:replace="fragments/course-slider::slider('В тренде', 'sliderSecondControls', 'sliderThird', ${trending})"></div>
+</div>
 
 <!-- Footer -->
 <div th:replace="~{fragments/footer::base_footer}"></div>

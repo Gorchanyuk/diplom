@@ -26,7 +26,7 @@ public class DetailsUserDTO {
 
     private String avatar;
 
-    private String slug;
+    private String birthday;
 
     private String phone;
 

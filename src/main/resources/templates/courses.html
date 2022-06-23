@@ -15,7 +15,8 @@
 <div class="py-6 wrapper flex-grow-1">
     <div class="container">
         <div class="row mb-6">
-            <th:block th:each="course : ${coursesChild}">
+            <th:block th:each="course : ${coursesChild}"
+                      th:if="${course.publish}">
                 <div class="col-lg-2 col-md-3 col-6">
 
                     <!-- Card -->

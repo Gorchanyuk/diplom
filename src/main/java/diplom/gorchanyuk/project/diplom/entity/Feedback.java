@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -32,4 +33,9 @@ public class Feedback {
 
     @Column(name = "message", columnDefinition = "VARCHAR NOT NULL")
     private String message;
+
+    @Column(name = "date_added")
+    private Date dateAdded;
+
+    private boolean read;
 }

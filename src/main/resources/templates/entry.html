@@ -25,13 +25,15 @@
                             <nav class="navbar navbar-expand-md">
                                 <div class="collapse navbar-collapse" id="navbarNav">
                                     <ul class="navbar-nav flex-column" id="sidebarnav">
-                                        <th:block th:each="topic : ${course.topics}">
+                                        <th:block th:each="topic : ${course.topics}"
+                                                  th:if="${topic.isPublish() || topic.isUserHaveEntry(user.id)}">
                                             <li class="navbar-header">
                                                 <h5 class="heading" th:text="${topic.nameTopic}">
                                                     Тема
                                                 </h5>
                                             </li>
-                                            <th:block th:each="item : ${topic.entries}">
+                                            <th:block th:each="item : ${topic.entries}"
+                                                      th:if="${item.publish || item.ownerId.id == user.id}">
                                                 <li class="nav-item">
                                                     <a class="nav-link"
                                                        th:href="@{/proger/courses/{course}/{entry}
@@ -77,6 +79,23 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mt-5 d-none d-xl-block end-0">
+                <!-- Sidebar nav fixed -->
+                <div class="sidebar-nav-fixed" th:if="${admin || (user?.id == entry?.ownerId?.id && !entry.isPublish())}">
+                    <form th:method="patch"
+                          th:action="@{/proger/menu_entry/{entry}(entry=${entry.slug})}">
+                        <button type="submit" class="btn btn-primary btn-block col-12 mb-3 ">
+                            Редактировать
+                        </button>
+                    </form>
+                    <form th:method="delete" th:action="@{/proger/menu_entry/{entry}(entry=${entry.slug})}">
+                        <button type="submit" class="btn btn-primary btn-block col-12 mb-3">
+                            Удалить
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

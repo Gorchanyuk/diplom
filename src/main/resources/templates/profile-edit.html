@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::base_head}">
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Профиль</title>
 </head>
 <body>
 
@@ -43,16 +43,18 @@
                                         Ваш аватар
                                     </h4>
                                     <p class="mb-0">
-                                        PNG или JPEG размером не более 800 пикселей по ширине и высоте.
+                                        JPEG размером не более 1 МБ.
                                     </p>
                                 </div>
                             </div>
-                            <div>
-                                <a href="#" class="btn btn-outline-white btn-sm">
-                                    Обновить
-                                </a>
-                                <a href="#" class="btn btn-outline-danger btn-sm">
-                                    Удалить</a>
+                            <div class="d-flex align-items-center justify-content-end">
+                                <form method="GET" th:action="@{/proger/profile/update-avatar}">
+                                    <input class="btn btn-outline-white btn-sm" type="submit" value="Обновить"/>
+                                </form>
+                                &nbsp;&nbsp;
+                                <form th:method="DELETE" th:action="@{/proger/profile/update-avatar}">
+                                    <input class="btn btn-outline-danger btn-sm" type="submit" value="Удалить"/>
+                                </form>
                             </div>
                         </div>
                         <hr class="my-5">
@@ -61,52 +63,63 @@
                                 Персональные данные
                             </h4>
                             <p class="mb-4">
-                                Отредактируйте свою личную информацию и адрес.
+                                Отредактируйте свою личную информацию.
                             </p>
                             <!-- Form -->
-                            <form class="row">
-                                <!-- First name -->
-                                <div class="mb-3 col-12 col-md-6">
-                                    <label class="form-label" for="fname">
-                                        Имя
-                                    </label>
-                                    <input type="text" id="fname" class="form-control" placeholder="Имя" required="">
-                                </div>
-                                <!-- Last name -->
-                                <div class="mb-3 col-12 col-md-6">
-                                    <label class="form-label" for="lname">
-                                        Фамилия
-                                    </label>
-                                    <input type="text" id="lname" class="form-control" placeholder="Фамилия"
-                                           required="">
-                                </div>
-                                <!-- Phone -->
-                                <div class="mb-3 col-12 col-md-6">
-                                    <label class="form-label" for="phone">
-                                        Телефон
-                                    </label>
-                                    <input type="text" id="phone" class="form-control" placeholder="Телефон"
-                                           required="">
-                                </div>
-                                <!-- Birthday -->
-                                <div class="mb-3 col-12 col-md-6">
-                                    <label class="form-label" for="birth">
-                                        День рождения
-                                    </label>
-                                    <input class="form-control flatpickr flatpickr-input" type="text"
-                                           placeholder="Дата рождения" id="birth" name="birth" readonly="readonly">
-                                </div>
-                                <!--Complicacy-->
-                                <div class="mb-3 col-12 col-md-6">
-                                    <label class="form-label">Выберите ваш уровень знаний</label>
-                                    <div class="dropdown bootstrap-select" style="width: 100%;">
-                                        <select class="selectpicker" data-width="100%" tabindex="null">
-                                            <option value="1">Начинающий</option>
-                                            <option value="2">Опытный</option>
-                                            <option value="3">Профессионал</option>
-                                        </select>
+                            <form class="row" method="post" th:action="@{/proger/profile/edit}" th:object="${user}">
+
+                                <th:block th:object="${user.detailsUser}">
+                                    <input type="hidden" th:field="*{id}">
+                                    <!-- First name -->
+
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label class="form-label" for="firstName">
+                                            Имя
+                                        </label>
+                                        <input type="text" id="firstName" th:field="*{firstName}" class="form-control"
+                                               placeholder="Имя"
+                                               required="">
                                     </div>
-                                </div>
+                                    <!-- Last name -->
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label class="form-label" for="surename">
+                                            Фамилия
+                                        </label>
+                                        <input type="text" id="surename" th:field="*{surename}" class="form-control"
+                                               placeholder="Фамилия"
+                                               required="">
+                                    </div>
+                                    <!-- Phone -->
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label class="form-label" for="phone">
+                                            Телефон
+                                        </label>
+                                        <input type="text" id="phone" th:field="*{phone}" class="form-control"
+                                               placeholder="Телефон"
+                                               required="">
+                                    </div>
+                                    <!-- Birthday -->
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label class="form-label" for="birthday">
+                                            День рождения
+                                        </label>
+                                        <input class="form-control flatpickr flatpickr-input" type="text"
+                                               placeholder="Дата рождения" id="birthday" th:field="*{birthday}"
+                                               readonly="readonly">
+                                    </div>
+                                    <!--Complicacy-->
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label class="form-label">Выберите ваш уровень знаний</label>
+                                        <div class="dropdown bootstrap-select" style="width: 100%;">
+                                            <select class="selectpicker" th:field="*{complicacy.id}" data-width="100%"
+                                                    tabindex="null">
+                                                <option value="1">Начинающий</option>
+                                                <option value="2">Опытный</option>
+                                                <option value="3">Профессионал</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </th:block>
                                 <div class="col-12">
                                     <!-- Button -->
                                     <button class="btn btn-primary" type="submit">

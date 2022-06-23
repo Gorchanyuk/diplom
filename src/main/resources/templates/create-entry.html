@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::base_head}">
+    <meta charset="UTF-8">
+    <title>Панель администратора</title>
+</head>
+
+<body class="bg-light">
+<!-- Navbar-->
+<div th:replace="~{fragments/navbar::base_navbar}"></div>
+<div th:replace="~{fragments/page-content::page3('Создание новой статьи', '')}"></div>
+
+<div th:replace="~{fragments/scripts::base_script}"></div>
+
+
+<div class="container">
+    <br>
+    <form class="row mb-10" name="myForm" th:method="post" th:action="@{/proger/menu_entry}" th:object="${entry}">
+        <input type="hidden" th:field="*{id}">
+        <div class="mb-1 col-12" id="divCourses">
+            <label class="text-dark form-label" for="courses" style="width: 100%;">
+                Выберите курс для статьи:
+                <select class="selectpicker" th:field="*{topicId.courseId.id}" id="courses" data-width="100%"
+                        onchange="SelectedCourse(this.value)">
+                    <option th:each="course : ${courses}" th:if="${course?.getChildren()?.size() == 0 }"
+                            th:text="${course?.nameCourse}"
+                            th:value="${course?.id}">
+                        Курс
+                    </option>
+                    <option value="">
+                        Другое
+                    </option>
+                </select>
+            </label>
+        </div>
+        <div class="mb-1 col-12 col-md-6" id="myCourseDiv" style="display: none">
+            <label class="form-label" for="myCourse" style="width: 100%;">
+                Введите свое название курса:
+
+                <input class="form-control" id="myCourse"
+                       placeholder="Курс">
+            </label>
+        </div>
+        <div class="mb-1 col-12" id="divTopics">
+            <label class="text-dark form-label" for="topics" style="width: 100%;">
+                Выберите или задайте подходящую тему для статьи:
+                <select class="selectpicker" th:field="*{topicId.id}" id="topics" data-width="100%"
+                        onchange="SelectedTopic(this.value)">
+                    <option th:each="topic : ${topics}"
+                            th:text="${topic?.nameTopic}"
+                            th:value="${topic?.id}">
+                        Тема
+                    </option>
+                    <option value="" id="topicZero">
+                        Другое
+                    </option>
+                </select>
+            </label>
+        </div>
+        <div class="mb-1 col-12" id="divMyTopic" style="display: none">
+            <label class="form-label" for="myTopic" style="width: 100%;">
+                Тема для статьи:
+
+                <input class="form-control" type="text" id="myTopic" th:field="*{topicId.nameTopic}"
+                       placeholder="Название статьи" onchange="EnterTopic()"
+                       required="">
+            </label>
+        </div>
+
+        <div class="mb-1 col-12" id="divTitle">
+            <label class="form-label" for="title" style="width: 100%;">
+                Название статьи:
+
+                <input class="form-control" type="text" id="title" th:field="*{name}"
+                       placeholder="Название статьи"
+                       required="">
+            </label>
+        </div>
+
+        <div class="mb-1 col-12" id="divEntry" style="width: 100%;">
+            <label class="form-label" for="entry" style="width: 100%;">
+                Текст статьи:
+
+                <textarea class="form-control" id="entry" th:field="*{text}"
+                          style="width: 100%; min-height: 300px;"
+                          required="">
+                        </textarea>
+            </label>
+        </div>
+
+        <div class="ml-1 mb-3 col-12 form-check form-switch  align-items-center">
+            <label class="form-check-label">
+                <input type="checkbox" id="entryOffer" class="form-check-input" th:field="*{offer}" checked="false">
+                Предложить к публикации
+            </label>
+        </div>
+
+        <div class="ml-1 mb-3 col-12 form-check form-switch  align-items-center" th:if="${admin}">
+            <label class="form-check-label">
+                <input type="checkbox" id="entryPublish" class="form-check-input" th:field="*{publish}" checked="false" onclick="isPublish()">
+                Опубликовать
+            </label>
+        </div>
+
+
+        <div class="col-12" id="buttonSubmit">
+            <button type="submit" class="btn btn-primary btn-block">
+                Опубликовать
+            </button>
+        </div>
+
+    </form>
+</div>
+
+
+<script th:inline="javascript">
+
+    isPublish();
+
+    if ([[${entry.topicId.courseId.id}]] === null) {
+        document.getElementById("courses").selectedIndex = -1;
+        document.querySelector('#topics').disabled = true;
+    }
+
+    // if ([[${topics?.size()}]] === 0) {
+    //     document.querySelector('#topics').disabled = true;
+    //     document.getElementById("divTopics").classList.toggle("col-md-6", true)
+    // }
+
+
+    // if ([[${topics?.size()}]] !== 0 && [[${entry.topicId.id}]] === null) {
+    if ([[${entry.topicId.id}]] === null) {
+        document.getElementById("topics").selectedIndex = -1;
+    }
+
+    if (document.querySelector('#topics').getAttribute(value) === "") {
+        // document.getElementById("divTopics").style.display = "none";
+        SelectedTopic("");
+        // document.getElementById("divMyTopic").classList.toggle("col-md-6", false)
+    }
+
+    function submitformPut() {
+        var loginForm = document.forms["myForm"];
+        var input = document.createElement('input');
+        input.setAttribute('type', "hidden");
+        input.setAttribute('name', "_method");
+        input.setAttribute('value', "put");
+        loginForm.appendChild(input);
+        loginForm.submit();
+    }
+
+    function SelectedCourse(x) {
+        if (x === "") {
+            document.getElementById("divCourses").classList.add("col-md-6");
+            document.getElementById("myCourse").setAttribute("name", "topicId.courseId.nameCourse");
+            document.getElementById("myCourseDiv").style.display = "block";
+            document.getElementById("courses").setAttribute("name", "");
+            document.getElementById("courses").required = false;
+            document.getElementById("myCourse").required = true;
+            SelectedTopic("");
+            document.getElementById("divMyTopic").classList.toggle("col-md-6", false)
+            document.getElementById("divTopics").style.display = "none";
+        } else {
+            document.getElementById("myCourse").setAttribute("name", "");
+            document.getElementById("myCourseDiv").style.display = "none";
+            document.getElementById("courses").setAttribute("name", "topicId.courseId.id");
+            submitformPut();
+        }
+    }
+
+    function SelectedTopic(x) {
+        if (x === "") {
+            document.getElementById("myTopic").setAttribute("name", "topicId.nameTopic");
+            document.getElementById("divMyTopic").style.display = "block";
+            document.getElementById("topics").setAttribute("name", "");
+            document.getElementById("divMyTopic").classList.toggle("col-md-6", true)
+            document.getElementById("divTopics").classList.toggle("col-md-6", true)
+            document.getElementById("myTopic").required = true;
+            document.getElementById("topics").required = false;
+
+        } else {
+            document.getElementById("myTopic").setAttribute("name", "");
+            document.getElementById("divMyTopic").style.display = "none";
+            document.getElementById("topics").setAttribute("name", "topicId.id");
+            document.getElementById("divTopics").classList.toggle("col-md-6", false)
+            document.getElementById("myTopic").required = false;
+            document.getElementById("topics").required = true;
+        }
+    }
+
+    function isPublish() {
+        var element = document.querySelector('#entryPublish');
+        if(element != null && element.checked){
+            document.querySelector('#entryOffer').checked = 0;
+            document.querySelector('#entryOffer').disabled = true;
+        }else{
+            document.querySelector('#entryOffer').disabled = false;
+        }
+
+    }
+
+</script>
+</body>
+</html>

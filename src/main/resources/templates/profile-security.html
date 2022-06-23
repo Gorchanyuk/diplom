@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::base_head}">
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<!-- Navbar-->
+<div th:replace="~{fragments/navbar::base_navbar}"></div>
+
+<!--Content-->
+<div class="pt-5 pb-5 flex-grow-1">
+    <div class="container">
+
+        <!-- User info -->
+        <div th:replace="fragments/profile-info::page"></div>
+
+        <!-- Content -->
+        <div class="row mt-0 mt-md-4">
+            <!--User-menu-->
+            <div th:replace="fragments/profile-menu::menu"></div>
+
+            <div class="col-lg-9 col-md-8 col-12">
+                <!-- Card -->
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header">
+                        <h3 class="mb-0">
+                            Безопасность
+                        </h3>
+                        <p class="mb-0">
+                            Отредактируйте настройки своей учетной записи и измените пароль здесь.
+                        </p>
+                    </div>
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <h4 class="mb-0">
+                            Адрес электронной почты
+                        </h4>
+                        <p>
+                            Ваш текущий адрес электронной почты:
+                            <span class="text-success" th:text="${user.detailsUser.email}">
+
+                       </span>
+                        </p>
+                        <form class="row" th:method="PUT" th:action="@{/proger/profile/security}" th:object="${detailsUser}">
+                            <div class="mb-3 col-lg-6 col-md-12 col-12">
+                                <label class="form-label" for="email">
+                                    Новый E-mail адрес
+                                </label>
+                                <input id="email" type="email" name="email" class="form-control" placeholder=""
+                                       required="">
+                                <button type="submit" class="btn btn-primary mt-2">
+                                    Обновить детали
+                                </button>
+                            </div>
+                        </form>
+                        <hr class="my-5">
+                        <div>
+                            <h4 class="mb-0">
+                                Изменить пароль
+                            </h4>
+<!--                            <p>-->
+<!--                                Мы отправим вам подтверждение по электронной почте при изменении пароля, поэтому-->
+<!--                                ожидайте его после отправки.-->
+<!--                            </p>-->
+                            <!-- Form -->
+                            <form class="row" th:method="PATCH" th:action="@{/proger/profile/security}" th:object="${changePassword}">
+                                <div class="col-lg-6 col-md-12 col-12">
+                                    <!-- Current password -->
+                                    <div class="mb-3">
+                                        <label class="form-label" for="currentpassword">
+                                            Текущий пароль
+                                        </label>
+                                        <input id="currentpassword" type="password" name="currentpassword"
+                                               class="form-control" placeholder="" required="">
+                                    </div>
+                                    <!-- New password -->
+                                    <div class="mb-3 password-field">
+                                        <label class="form-label" for="newpassword">
+                                            Новый пароль
+                                        </label>
+                                        <input id="newpassword" type="password" name="newpassword"
+                                               class="form-control mb-2" placeholder="" required="">
+                                        <div class="row align-items-center g-0">
+                                            <div class="col-6">
+													<span data-bs-toggle="tooltip" data-placement="right" title=""
+                                                          data-bs-original-title="Проверка пароля в поле ниже. Чтобы достичь лучшей защиты, используйте не менее 6 символов, заглавную букву и цифру, например 'Тест01'">
+                                                        Надежность Пароля
+														<i class="fe fe-help-circle ms-1"></i>
+                                                    </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <!-- Confirm new password -->
+                                        <label class="form-label" for="confirmpassword">
+                                            Подтвердите новый пароль
+                                        </label>
+                                        <input id="confirmpassword" type="password" name="confirmpassword"
+                                               class="form-control mb-2" placeholder="" required="">
+                                    </div>
+                                    <div style="color:red" th:if="${#fields.hasErrors('confirmpassword')}" th:errors="*{confirmpassword}">
+                                        Name Error
+                                    </div>
+                                    <!-- Button -->
+                                    <button type="submit" class="btn btn-primary">
+                                        Сохранить пароль
+                                    </button>
+                                    <div class="col-6"></div>
+                                </div>
+<!--                                <div class="col-12 mt-4">-->
+<!--                                    <p class="mb-0">-->
+<!--                                        Не можете вспомнить текущий пароль?-->
+<!--                                        <a href="#">-->
+<!--                                            Сброс пароля по электронной почте-->
+<!--                                        </a>-->
+<!--                                    </p>-->
+<!--                                </div>-->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer::base_footer}"></div>
+<!-- Scripts -->
+<div th:replace="~{fragments/scripts::base_script}"></div>
+</body>
+</html>

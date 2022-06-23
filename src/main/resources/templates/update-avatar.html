@@ -1,3 +1,7 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<body>-->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::base_head}">
@@ -5,8 +9,6 @@
     <title>$Title$</title>
 </head>
 <body class="pt-0 d-flex flex-column min-vh-100">
-
-<!-- Page Content -->
 
 <div class="container d-flex flex-column wrapper flex-grow-1">
     <div class="row">
@@ -20,20 +22,22 @@
     <div class="row align-items-center justify-content-center g-0 py-lg-22 py-10">
         <!-- Docs -->
         <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center">
-            <h1 class="display-3 mb-2 fw-bold" th:text="${title}">Заголовок</h1>
-            <h2 class="mb-5 fw-medium" th:text="${message}"> Сообщение </h2>
+            <h1>Смена аватара</h1>
 
-            <hr class="my-5">
-            <div>
-                <h3 class="mb-3 d-flex justify-content-center">Перейти на главную страницу</h3>
-
-                <a th:href="@{/proger}" class="btn btn-success d-flex justify-content-center" >На главную</a>
-            </div>
+            <form th:method="put" th:action="@{/proger/profile/update-avatar}" enctype="multipart/form-data">
+                <input class="form-control" type="file" name="file"><br><br>
+                <input class="btn btn-dark-success mw-lg-30 mx-0" type="submit" value="Поменять">
+            </form>
+            
 
         </div>
     </div>
 
 </div>
+
+
+
+
 
 <!--Footer-->
 <div th:replace="~{fragments/footer::base_footer}"></div>

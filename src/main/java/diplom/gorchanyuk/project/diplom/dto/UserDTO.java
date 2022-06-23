@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -17,6 +18,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
+
+    private long id;
 
     @NotBlank(message = "Это поле не может быть пустым")
     private String username;
@@ -29,9 +32,11 @@ public class UserDTO {
     @Size(min=6, message = "Пароль должен содержать минимум 6 символов.")
     private String password;
 
-    private Date lastLogin;
-
     private Set<AuthorityDTO> authorities;
+
+    private List<EntryDTO> entries;
+
+    public boolean admin;
 
     public void setAuthorities(AuthorityDTO authority){
         if (authorities == null) authorities = new HashSet<>();
@@ -41,6 +46,10 @@ public class UserDTO {
     public void setAuthorities(Set<AuthorityDTO> authorities){
 
         this.authorities = authorities;
+    }
+
+    public boolean isAdmin(){
+        return authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 
     @Override

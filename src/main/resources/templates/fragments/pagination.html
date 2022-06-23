@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Footer -->
+<div class="card-footer bg-white text-center" th:fragment="pagination(elements)">
+    <nav aria-label="Page navigation" class="paging">
+        <ul class="pagination d-block text-center"
+            th:if="${elements.page.totalPages > 1}">
+            <li class="page-item d-inline-block float-none"
+                th:classappend="${!elements.paging.isPrevEnabled()? 'disabled' : ''}">
+                <a class="page-link"
+                   th:href="@{'/proger/admin/' + ${page} + '/?pageNumber=' + ${elements.paging.pageNumber - 1}}"
+                   tabindex="-1">Назад</a>
+            </li>
+            <th:block th:each="item : ${elements.paging.getItems()}">
+                <li class="page-item d-inline-block float-none"
+                    th:classappend="${item.index == elements.paging.pageNumber? 'active' : ''}"
+                    th:if="${item.pageItemType.name() == 'PAGE'}">
+                    <a class="page-link"
+                       th:href="@{'/proger/admin/' + ${page} + '/?pageNumber=' + ${item.index}}"
+                       th:text="${item.index}"></a>
+                </li>
+                <li class="page-item disabled d-inline-block float-none"
+                    th:if="${item.pageItemType.name() == 'DOTS'}">
+                    <a class="page-link" href="#">...</a>
+                </li>
+            </th:block>
+            <li class="page-item d-inline-block float-none"
+                th:classappend="${!elements.paging.isNextEnabled()? 'disabled' : ''}">
+                <a class="page-link"
+                   th:href="@{'/proger/admin/' + ${page} + '/?pageNumber=' + ${elements.paging.pageNumber + 1}}">Вперед</a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+
+
+</html>

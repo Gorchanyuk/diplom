@@ -7,11 +7,16 @@ import diplom.gorchanyuk.project.diplom.entity.DetailsUser;
 import diplom.gorchanyuk.project.diplom.entity.User;
 import diplom.gorchanyuk.project.diplom.exception.SuchEmailAlreadyExistException;
 import diplom.gorchanyuk.project.diplom.exception.SuchUsernameAlreadyExistException;
+import diplom.gorchanyuk.project.diplom.pagination.Paged;
+import diplom.gorchanyuk.project.diplom.pagination.Paging;
 import diplom.gorchanyuk.project.diplom.repository.AuthorityRepository;
 import diplom.gorchanyuk.project.diplom.repository.DetailsUserRepository;
 import diplom.gorchanyuk.project.diplom.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,6 +42,7 @@ public class UserService implements UserDetailsService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final DetailsUserRepository detailsUserRepository;
+    private final DetailsUserService detailsUserService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -44,7 +50,9 @@ public class UserService implements UserDetailsService {
         DetailsUser detailsUser = detailsUserRepository.findByEmail(username);
         if (user == null && detailsUser != null) {
             user = userRepository.findByDetailsUser(detailsUser);
-            if (user == null) throw new UsernameNotFoundException("Пользователь не найден");
+        }
+        if (user == null) {
+            throw new UsernameNotFoundException("Пользователь не найден");
         }
         return user;
     }
@@ -94,8 +102,50 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-//    public List<User> usergtList(Long idMin) {
-//        return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
-//                .setParameter("paramId", idMin).getResultList();
-//    }
+    public void update(UserDTO userDTO) {
+        detailsUserService.update(userDTO.getDetailsUser());
+    }
+
+    public void updateAvatar(User user) {
+        detailsUserService.updateAvatar(user.getDetailsUser());
+    }
+
+    public void updateEmail(UserDTO userDTO) {
+        detailsUserService.updateEmail(userDTO.getDetailsUser());
+    }
+
+    public void updatePassword(User user) {
+        userRepository.save(user);
+    }
+
+    public void adminAuthority(UserDTO userDTO){
+        User user = (User) loadUserByUsername(userDTO.getUsername());
+        Authority authority = authorityRepository.findByAuthority("ROLE_ADMIN").orElseGet(null);
+        Set<Authority> authorities = user.getAuthorities();
+        if(userDTO.admin){
+            authorities.add(authority);
+        }else{
+            authorities.remove(authority);
+        }
+        user.setAuthorities(authorities);
+        userRepository.save(user);
+    }
+
+
+    public Paged<UserDTO> getPage(int pageNumber, int size) {
+        //реализация с пагинацией и сортировкой
+        PageRequest request = PageRequest.of(pageNumber - 1, size, Sort.Direction.ASC, "dateJoined");
+        Page<User> users = userRepository.findAll(request);
+        Page<UserDTO> userPage = users.map(user -> {
+            UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+            Set<AuthorityDTO> authorities = user.getAuthorities().stream()
+                    .map(a -> modelMapper.map(a, AuthorityDTO.class))
+                    .collect(Collectors.toSet());
+            userDTO.setAuthorities(authorities);
+            return userDTO;
+        });
+
+        return new Paged<>(userPage, Paging.of(userPage.getTotalPages(), pageNumber, size));
+    }
+
 }

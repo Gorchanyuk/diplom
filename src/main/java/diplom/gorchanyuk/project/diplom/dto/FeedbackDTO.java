@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -13,10 +14,16 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class FeedbackDTO {
 
+    private Long id;
+
     @Valid
     private DetailsUserDTO detailsUser;
 
-    private Long reasonFeedback;
+    private ReasonFeedbackDTO reasonFeedback;
 
     private String message;
+
+    private Date dateAdded;
+
+    private boolean read;
 }

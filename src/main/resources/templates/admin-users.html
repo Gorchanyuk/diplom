@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::base_head}">
+    <meta charset="UTF-8">
+    <title>Панель администратора</title>
+</head>
+
+<body class="bg-light">
+<!-- Navbar-->
+<div th:replace="~{fragments/navbar::base_navbar}"></div>
+<div id="db-wrapper" class="toggled">
+
+
+    <!-- Page content -->
+    <div id="page-content">
+        <!-- Container fluid -->
+        <div class="bg-primary pt-10 pb-21"></div>
+        <div class="container-fluid mt-n22 px-6">
+
+            <div th:replace="~{fragments/admin-card::cards(${page})}">
+            </div>
+
+
+            <!-- row  -->
+            <div class=" row mt-6">
+                <div class="col-md-12 col-12">
+                    <!-- card  -->
+                    <div class="card">
+                        <!-- table  -->
+                        <div class="table-responsive">
+                            <table class="table text-nowrap mb-0">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>Ник пользователя</th>
+                                    <th>Почта</th>
+                                    <th>Роль</th>
+                                    <th>Дата регистрации</th>
+                                </tr>
+                                </thead>
+                                <tbody th:each="client : ${users.page}">
+                                <tr>
+                                    <td class="align-middle">
+                                        <div class="d-flex align-items-center">
+                                            <div class="ms-3 lh-1">
+                                                <h5 class=" mb-1"
+                                                    th:text="${client.username}">
+                                                    Ник пользователя
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle" th:text="${client.detailsUser.getEmail()}">
+                                        Почта
+                                    </td>
+                                    <td class="align-middle">
+                                        <form method="post"
+                                              action="/proger/admin/users"
+                                              th:object="${client}">
+                                            <input type="hidden" th:value="${client.username}" th:name="username">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input"
+                                                       th:checked="${client.isAdmin()}"
+                                                       th:name="admin"
+                                                       onchange="this.form.submit()">
+                                                Админ
+                                            </label>
+                                        </form>
+                                    </td>
+                                    <td class="align-middle" th:text="${client.dateJoined}">
+                                        Дата регистрации
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Pagination  -->
+                        <div th:replace="~{fragments/pagination::pagination(${users})}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Scripts -->
+<div th:replace="~{fragments/scripts::base_script}"></div>
+</body>
+</html>

@@ -36,9 +36,6 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "last_login")
-    private Date lastLogin;
-
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.MERGE,
@@ -53,17 +50,10 @@ public class User implements UserDetails {
     )
     private Set<Authority> authorities;
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ownerId", fetch = FetchType.EAGER)
-//    @Transient
-//    private List<Course> сourses;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ownerId")
     @Transient
     private List<Entry> entries;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ownerId")
-    @Transient
-    private List<Comment> comments;
 
     @Override
     public boolean isAccountNonExpired() {

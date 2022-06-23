@@ -1,11 +1,12 @@
 package diplom.gorchanyuk.project.diplom.service;
 
+import diplom.gorchanyuk.project.diplom.config.Transcriptor;
 import diplom.gorchanyuk.project.diplom.dto.CourseDTO;
+import diplom.gorchanyuk.project.diplom.entity.Complicacy;
 import diplom.gorchanyuk.project.diplom.entity.Course;
 import diplom.gorchanyuk.project.diplom.repository.CourseRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,6 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final ModelMapper modelMapper;
 
-    @Cacheable(cacheNames = "courses")
     @Transactional
     public List<CourseDTO> findAll() {
         List<Course> courses = courseRepository.findAll();
@@ -43,11 +43,12 @@ public class CourseService {
         return modelMapper.map(course, CourseDTO.class);
     }
 
-//    public CourseDTO findByName(String name){
-//        Course course = courseRepository.findByNameCourse(name)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//        return modelMapper.map(course, CourseDTO.class);
-//    }
+    @Transactional
+    public CourseDTO findByName(String name){
+        Course course = courseRepository.findByNameCourse(name)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return modelMapper.map(course, CourseDTO.class);
+    }
 
     public CourseDTO findBySlug(String name){
         Course course = courseRepository.findBySlug(name)
@@ -56,14 +57,17 @@ public class CourseService {
     }
 
     @Transactional
-    public boolean save(CourseDTO courseDTO) {
-        Course course = courseRepository.findByNameCourse(courseDTO.getNameCourse()).orElse(null);
-        if (course != null && course.getNameCourse().equalsIgnoreCase(courseDTO.getNameCourse())) return false;
-
-        course = modelMapper.map(courseDTO, Course.class);
+    public Course save(CourseDTO courseDTO) {
+        Course course = modelMapper.map(courseDTO, Course.class);
+        if (course.getComplicacy() == null) {
+            Complicacy complicacy = new Complicacy();
+            complicacy.setId(1);
+            course.setComplicacy(complicacy);
+        }
         course.setDateAdded(new Date());
+        course.setSlug(Transcriptor.transcript(courseDTO.getNameCourse()));
         courseRepository.save(course);
-        return true;
+        return course;
     }
 
     public boolean delete(long id){

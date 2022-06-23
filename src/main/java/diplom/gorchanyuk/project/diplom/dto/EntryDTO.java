@@ -1,10 +1,12 @@
 package diplom.gorchanyuk.project.diplom.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -12,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class EntryDTO {
 
-    private long id;
+    private Long id;
 
     private  String name;
 
@@ -23,13 +25,15 @@ public class EntryDTO {
 
     private Date dateUpdate;
 
-    private List<CommentDTO> comments;
-
     private TopicDTO topicId;
 
     private UserDTO ownerId;
 
     private String slug;
+
+    private boolean publish;
+
+    private boolean offer;
 
     @Override
     public String toString() {

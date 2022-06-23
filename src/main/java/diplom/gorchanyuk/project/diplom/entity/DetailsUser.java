@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -35,14 +36,14 @@ public class DetailsUser {
     @Column(name = "avatar")
     private String avatar;
 
-    @Column(name = "slug")
-    private String slug;
+    @Column(name = "birthday")
+    private Date birthday;
 
     @ManyToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.PERSIST,
             CascadeType.REFRESH})
-    @JoinColumn(name = "complicacy_id", columnDefinition = "BIGINT NOT NULL DEFAULT 1")
+    @JoinColumn(name = "complicacy_id", columnDefinition = "BIGINT DEFAULT 1")
     private Complicacy complicacy;
 }

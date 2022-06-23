@@ -91,10 +91,10 @@
                         </th:block>
                         <!-- form group -->
                         <div class="mb-3 col-12">
-                            <label class="text-dark form-label" for="reasonFeedback" style="width: 100%;">
+                            <label class="text-dark form-label" for="reasonFeedback.id" style="width: 100%;">
                                 Причина обращения:
                                 <span class="text-danger">*</span>
-                                <select class="selectpicker" th:field="*{reasonFeedback}" data-width="100%">
+                                <select class="selectpicker" th:field="*{reasonFeedback.id}" data-width="100%">
 
                                     <option th:each="reason : ${reasonFeedbacks}"
                                             th:text="${reason.reason}"

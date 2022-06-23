@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CourseDTO {
 
-    private long id;
+    private Long id;
 
     @NotBlank
     private String nameCourse;
@@ -24,6 +24,8 @@ public class CourseDTO {
     private String description;
 
     private String slug;
+
+    private Boolean publish;
 
     private List<TopicDTO> topics;
 

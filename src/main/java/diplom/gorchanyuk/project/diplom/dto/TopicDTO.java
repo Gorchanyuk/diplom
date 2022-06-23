@@ -14,12 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 public class TopicDTO {
 
-    private long id;
+    private Long id;
 
     @NotBlank
     private String nameTopic;
-
-    private String avatar;
 
     private List<EntryDTO> entries;
 
@@ -27,4 +25,14 @@ public class TopicDTO {
 
     private String slug;
 
+
+    public boolean isPublish(){
+        //    Использую в Thymleaf для определения показывать тему или нет
+        return this.entries.stream().anyMatch(EntryDTO::isPublish);
+    }
+
+    public boolean isUserHaveEntry(Long userId){
+        //    Использую в Thymleaf для определения показывать тему или нет
+        return this.entries.stream().anyMatch(e->e.getOwnerId().getId() == userId);
+    }
 }

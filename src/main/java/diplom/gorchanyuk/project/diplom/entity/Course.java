@@ -36,8 +36,15 @@ public class Course {
     @Column(name="slug")
     private String slug;
 
+    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
+    private Boolean publish;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
     private List<Topic> topics;
+
+    public void removeTopic(Topic topic) {
+        topics.removeIf(t -> t.equals(topic));
+    }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "parent")
     private List<Course> children;
@@ -48,7 +55,7 @@ public class Course {
     @ManyToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
-            CascadeType.PERSIST,
+//            CascadeType.PERSIST,
             CascadeType.REFRESH})
             @JoinColumn(name = "complicacy_id")
     private Complicacy complicacy;

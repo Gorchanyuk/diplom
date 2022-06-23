@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::base_head}">
+    <meta charset="UTF-8">
+    <title>Панель администратора</title>
+</head>
+
+<body class="bg-light">
+<!-- Navbar-->
+<div th:replace="~{fragments/navbar::base_navbar}"></div>
+<div id="db-wrapper" class="toggled">
+
+
+    <!-- Page content -->
+    <div id="page-content">
+        <!-- Container fluid -->
+        <div class="bg-primary pt-10 pb-21"></div>
+        <div class="container-fluid mt-n22 px-6">
+
+            <div th:replace="~{fragments/admin-card::cards(${page})}">
+            </div>
+
+
+            <!-- row  -->
+            <div class=" row mt-6">
+                <div class="col-md-12 col-12">
+                    <!-- card  -->
+                    <div class="card">
+                        <!-- table  -->
+                        <div class="table-responsive">
+                            <table class="table text-wrap mb-0 w-100">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>
+                                        Имя и фамилия пользователя
+                                    </th>
+                                    <th>
+                                        Почта
+                                    </th>
+                                    <th>
+                                        Телефон
+                                    </th>
+                                    <th>
+                                        Причина обращения
+                                    </th>
+                                    <th>
+                                        Дата обращения
+                                    </th>
+                                    <th>
+                                        Прочитано
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody th:each="feedback : ${feedbacks.page}">
+                                    <tr onclick="openFeedback(this) " class="row-hover">
+                                        <td th:text="${feedback.detailsUser.firstName + ' ' + feedback.detailsUser.surename}">
+                                            Имя и фамилия пользователя
+                                        </td>
+                                        <td th:text="${feedback.detailsUser.email}">
+                                            Почта
+                                        </td>
+                                        <td th:text="${feedback.detailsUser.phone}">
+                                            Телефон
+                                        </td>
+                                        <td th:text="${feedback.reasonFeedback.reason}">
+                                            Причина обращения
+                                        </td>
+                                        <td th:text="${feedback.dateAdded}">
+                                            Дата обращения
+                                        </td>
+                                        <td>
+                                            <form method="post"
+                                                  action="/proger/admin/appeals"
+                                                  th:object="${feedback}">
+                                                <input type="hidden" th:value="${feedback.id}" th:name="id">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" class="form-check-input"
+                                                           th:checked="${feedback.read}"
+                                                           th:name="read"
+                                                           onchange="this.form.submit()">
+                                                </label>
+                                            </form>
+                                        </td>
+
+                                    </tr>
+                                    <tr class="text-break bg-gray-300 collapse" id="feeback-text">
+                                        <td class="align-middle text-break" colspan="6">
+                                            <div class="d-flex align-items-center">
+                                                <div class="ms-3 lh-1">
+                                                    <p class=" mb-1"
+                                                       th:text="${feedback.message}">
+                                                        Сообщение
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Pagination  -->
+                        <div th:replace="~{fragments/pagination::pagination(${feedbacks})}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function openFeedback(arg) {
+        arg.nextElementSibling.classList.toggle('collapse');
+        arg.form.submit();
+    }
+</script>
+
+<!-- Scripts -->
+<div th:replace="~{fragments/scripts::base_script}"></div>
+</body>
+</html>

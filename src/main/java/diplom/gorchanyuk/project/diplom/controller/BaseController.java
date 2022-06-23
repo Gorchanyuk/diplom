@@ -26,7 +26,6 @@ public class BaseController extends GeneralController{
         return "redirect:/proger";
     }
 
-
     @GetMapping("/proger")
     public String startPage(Model baseModel, @AuthenticationPrincipal User actualUser) {
 
@@ -66,12 +65,7 @@ public class BaseController extends GeneralController{
         return "/courses";
     }
 
-    @GetMapping("/proger/admin")
-    public String adminPage(Model baseModel, @AuthenticationPrincipal User actualUser) {
-        Model model = getBaseModel(baseModel, actualUser);
 
-        return "index";
-    }
 
 
 }

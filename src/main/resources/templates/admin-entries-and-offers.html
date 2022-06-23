@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::base_head}">
+    <meta charset="UTF-8">
+    <title>Панель администратора</title>
+</head>
+
+<body class="bg-light">
+<!-- Navbar-->
+<div th:replace="~{fragments/navbar::base_navbar}"></div>
+<div id="db-wrapper" class="toggled">
+
+
+    <!-- Page content -->
+    <div id="page-content">
+        <!-- Container fluid -->
+        <div class="bg-primary pt-10 pb-21"></div>
+        <div class="container-fluid mt-n22 px-6">
+
+            <div th:replace="~{fragments/admin-card::cards(${page})}">
+            </div>
+
+
+            <!-- row  -->
+            <div class=" row mt-6">
+                <div class="col-md-12 col-12">
+                    <!-- card  -->
+                    <div class="card">
+                        <!-- table  -->
+                        <div class="table-responsive">
+                            <table class="table text-nowrap mb-0">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>Название статьи</th>
+                                    <th>Курс</th>
+                                    <th>Автор</th>
+                                </tr>
+                                </thead>
+                                <tbody th:each="entry : ${#strings.equals(page, 'entries') ? entriesPublish.page : entriesOffer.page}">
+                                <tr class="row-hover" th:onclick="'submitform(' + ${entry.id} + ')'">
+                                    <form th:method="patch" th:name="'formOfferEntries' + ${entry.id}"
+                                          th:if="${#strings.equals(page, 'offers')}"
+                                          th:action="@{/proger/menu_entry/{entry}(entry=${entry.slug})}">
+                                    </form>
+                                    <form th:method="get" th:name="'formPublicEntries' + ${entry.id}"
+                                          th:if="${#strings.equals(page, 'entries')}"
+                                          th:action="@{/proger/courses/{course}/{entry}(course=${entry.topicId.courseId.getSlug()}, entry=${entry.getSlug()})}">
+                                    </form>
+                                    <td class="align-middle">
+                                        <div class="d-flex align-items-center">
+                                            <div class="ms-3 lh-1">
+                                                <h5 class=" mb-1" th:switch="${page}">
+                                                    <span th:case="'entries'"
+                                                          th:text="${entry.name}"
+                                                          class="text-inherit">
+                                                        Название опубликованной статьи
+                                                    </span>
+                                                    <span th:case="'offers'"
+                                                          th:text="${entry.name}"
+                                                          class="text-inherit">
+                                                        Название предложенной статьи
+                                                    </span>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle" th:text="${entry.topicId.courseId.nameCourse}">
+                                        Курс
+                                    </td>
+                                    <td class="align-middle" th:text="${entry.ownerId.username}">
+                                        Автор
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Pagination  -->
+                        <div th:replace="~{fragments/pagination::pagination(${#strings.equals(page, 'entries') ? entriesPublish : entriesOffer})}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Scripts -->
+<div th:replace="~{fragments/scripts::base_script}"></div>
+<script>
+    function submitform(arg) {
+        var loginForm;
+
+        if ([[${page.equals('entries')}]]) {
+            loginForm = document.forms["formPublicEntries" + arg];
+        } else {
+            loginForm = document.forms["formOfferEntries" + arg];
+        }
+        loginForm.submit();
+    }
+</script>
+</body>
+</html>

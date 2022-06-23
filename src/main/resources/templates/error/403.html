@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)https://codescandy.com/dashui/pages/404-error.html -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::base_head}">
+    <meta charset="UTF-8">
+    <title>Страница не найдена</title>
+</head>
+
+<body class="bg-white">
+<!-- Error page -->
+<div class="container min-vh-100 d-flex justify-content-center
+      align-items-center">
+    <!-- row -->
+    <div class="row">
+        <!-- col -->
+        <div class="col-12">
+            <!-- content -->
+            <div class="text-center">
+                <div class="mb-3">
+                    <!-- img -->
+                    <img th:src="@{/images/404-error-img.png}" alt="" class="img-fluid">
+                </div>
+                <!-- text -->
+                <h1 class="display-4 fw-bold">Ой! страница не найдена.</h1>
+                <!-- button -->
+                <a th:href="@{/proger}" class="btn btn-primary">На главную</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Scripts -->
+<div th:replace="~{fragments/scripts::base_script}"></div>
+</body>
+</html>
